@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  postgres_bd:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=graphql
+    volumes:
+      - .:/data/postgres

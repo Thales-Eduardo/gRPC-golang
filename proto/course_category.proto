@@ -1,0 +1,37 @@
+syntax = "proto3";
+package pb;
+option go_package = "internal/pb";
+
+message black{}
+
+message Category {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateCategoryReq {
+  string name = 1;
+  string description = 2;
+}
+
+message CategoryGetByIdReq {
+  string id = 1;
+}
+
+message CategoryList {
+  repeated Category category = 1;
+}
+
+service CategoryService {
+  rpc CreateCategory (CreateCategoryReq) returns (Category) {}
+  rpc ListCategories (black) returns (CategoryList) {}
+  rpc GetCategoryID (CategoryGetByIdReq) returns (Category) {}
+
+  //stream
+  // criando categoria aos poucos, asim que estiver ponto returne todas que foram cadastradas no banco
+  rpc CreateCategoryStream (stream CreateCategoryReq) returns (CategoryList) {}
+  // criando categoria aos poucos e assim que a nova categoria for criada ela vai retornando
+  // manda um recebe um
+  rpc CreateCategoryStreamBidirecional (stream CreateCategoryReq) returns ( stream Category) {}
+}
